@@ -11,7 +11,7 @@ import (
 
 func main() {
 
-	// PRODUCER:
+	//PRODUCER:
 	writer := &kafka.Writer{
 		Addr:  kafka.TCP("localhost:19092"),
 		Topic: "quickstart",
@@ -31,7 +31,7 @@ func main() {
 		log.Fatal("Can't write a message: ", err)
 	}
 
-	// CONSUMER:
+	//CONSUMER:
 	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers:  []string{"localhost:19092"},
 		GroupID:  "consumer",
@@ -46,6 +46,7 @@ func main() {
 		for _, header := range message.Headers {
 			if header.Key != "session" && string(header.Value) == "kafka" {
 				log.Fatal("Incorrect message...")
+				reader.Close()
 			}
 		}
 
